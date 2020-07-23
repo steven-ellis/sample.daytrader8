@@ -34,7 +34,7 @@
 
 
 	<dataSource jndiName="jdbc/TradeDataSource" jdbcDriverRef="MYSQLJCC" id="DefaultDataSource" connectionManagerRef="conMgr1" statementCacheSize="60" isolationLevel="TRANSACTION_READ_COMMITTED" type="javax.sql.ConnectionPoolDataSource">
-    	<properties serverName="mysql" portNumber="3306"
+    	<properties serverName="mysql2" portNumber="3306"
        		        databaseName="tradedb"
                 	user="tradedb"
                 	password="password"/>
