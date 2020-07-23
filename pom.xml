@@ -43,12 +43,6 @@
         <artifactId>jackson-databind</artifactId>
         <version>2.11.1</version>
       </dependency>
-      <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>8.0.21</version>
-      </dependency>
-
     </dependencies>
 
     <build>
@@ -60,7 +54,7 @@
          <version>3.0.0</version>
          <executions>
            <execution>
-            <id>copy-mysql</id>
+            <id>copy-mysql-1</id>
             <phase>package</phase>
             <goals>
              <goal>copy</goal>
@@ -72,6 +66,23 @@
                   <artifactId>mysql-connector-java</artifactId>
                   <version>8.0.21</version>
                   <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/MySQLLibs</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+         </execution>
+         <execution>
+            <id>copy-mysql-2</id>
+            <phase>package</phase>
+            <goals>
+             <goal>copy</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>mysql</groupId>
+                  <artifactId>mysql-connector-java</artifactId>
+                  <version>8.0.21</version>
+                  <outputDirectory>${project.basedir}/src/wlp/usr/shared/resources/MySQLLibs</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>
