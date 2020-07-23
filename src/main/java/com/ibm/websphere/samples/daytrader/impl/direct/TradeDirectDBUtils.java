@@ -230,7 +230,7 @@ public class TradeDirectDBUtils implements TradeDB {
         }
       }
       stmt.close();
-      conn.commit();
+      //conn.commit();
       success = true;
     } catch (Exception e) {
       Log.error(e, "TradeDirect:recreateDBTables() -- Error dropping and recreating the database tables");
@@ -280,7 +280,7 @@ public class TradeDirectDBUtils implements TradeDB {
           // stmt = getStatement(conn, "delete from keygenejb");
           // stmt.executeUpdate();
           // stmt.close();
-          conn.commit();
+          //conn.commit();
         } catch (Exception e) {
           Log.error(e, "TradeDirect:resetTrade(deleteAll) -- Error deleting Trade users and stock from the Trade database");
         }

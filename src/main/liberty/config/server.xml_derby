@@ -16,6 +16,9 @@
         <feature>jaxrs-2.1</feature>
         <feature>ssl-1.0</feature>
     </featureManager>
+        
+        <keyStore id="defaultKeyStore" password="yourPassword" />
+
         <!--<logging traceSpecification="daytrader=fine"/>-->
 
 	<!-- allow reuse of 'busy' ports for fast server recycling on linux (where ports remain blocked for up to 2 mins after server stops) ${tradelite.http.port} set in bootstrap.properties --> 
@@ -28,18 +31,15 @@
 
 	<connectionManager agedTimeout="-1" connectionTimeout="0" id="conMgr1" maxIdleTime="-1" maxPoolSize="100" minPoolSize="100" purgePolicy="FailingConnectionOnly" reapTime="-1"/> 
 
-	<jdbcDriver id="MYSQLJCC" libraryRef="MYSQLJCCLib"/>
-	<library id="MYSQLJCCLib" filesetRef="MYSQLJCCFileset"/>
-	<fileset id="MYSQLJCCFileset" dir="${shared.resource.dir}/MySQLLibs" includes="mysql-connector-java-8.0.21.jar"/>
+	<jdbcDriver id="DerbyEmbedded" libraryRef="DerbyLib"/>
+	<library filesetRef="DerbyFileset" id="DerbyLib"/>
+	<fileset dir="${shared.resource.dir}/DerbyLibs" id="DerbyFileset" includes="derby-10.13.1.1.jar"/>
 
-	<authData id="TradeDataSourceAuthData" user="${env.dbUser}" password="${env.dbPass}"/>
-	<authData id="TradeAdminAuthData" user="${env.dbUser}" password="${env.dbPass}"/>
+	<authData id="TradeDataSourceAuthData" password="db_password" user="db_username"/>
+	<authData id="TradeAdminAuthData" password="db_password" user="db_username"/>
 
-	<dataSource jndiName="jdbc/TradeDataSource" jdbcDriverRef="MYSQLJCC" id="DefaultDataSource" connectionManagerRef="conMgr1" statementCacheSize="60" isolationLevel="TRANSACTION_READ_COMMITTED" type="javax.sql.ConnectionPoolDataSource">
-    	<properties serverName="localhost" portNumber="3306"
-       		        databaseName="tradedb"
-                	user="tradedb"
-                	password="password"/>
+	<dataSource connectionManagerRef="conMgr1" id="DefaultDataSource" isolationLevel="TRANSACTION_READ_COMMITTED" jdbcDriverRef="DerbyEmbedded" jndiName="jdbc/TradeDataSource" statementCacheSize="60"> 
+		<properties.derby.embedded createDatabase="create" databaseName="${shared.resource.dir}/data/tradedb" password="db_password" user="db_username"/> 
 	</dataSource>
 
 	<messagingEngine id="defaultME">

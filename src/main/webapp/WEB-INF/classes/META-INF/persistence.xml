@@ -20,7 +20,6 @@
              version="2.1">
 
     <persistence-unit transaction-type="JTA" name="daytrader">
-        
         <jta-data-source>jdbc/TradeDataSource</jta-data-source>
         
         <class>com.ibm.websphere.samples.daytrader.entities.AccountDataBean</class>
@@ -31,5 +30,11 @@
         <class>com.ibm.websphere.samples.daytrader.entities.OutboxEventBean</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
+<!--
+        <properties>
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="both"/>
+        </properties>
+-->
     </persistence-unit>
 </persistence>

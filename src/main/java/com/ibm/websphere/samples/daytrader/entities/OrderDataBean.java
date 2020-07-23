@@ -65,7 +65,7 @@ public class OrderDataBean implements Serializable {
     private static final long serialVersionUID = 120650490200739057L;
 
     @Id
-    @TableGenerator(name = "orderIdGen", table = "KEYGENEJB", pkColumnName = "KEYNAME", valueColumnName = "KEYVAL", pkColumnValue = "order", allocationSize = 1000)
+    @TableGenerator(name = "orderIdGen", table = "keygenejb", pkColumnName = "keyname", valueColumnName = "keyval", pkColumnValue = "order", allocationSize = 1000)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "orderIdGen")
     @Column(name = "ORDERID", nullable = false)
     private Integer orderID; /* orderID */

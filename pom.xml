@@ -55,7 +55,7 @@
          <version>3.0.0</version>
          <executions>
            <execution>
-            <id>copy-derby</id>
+            <id>copy-mysql</id>
             <phase>package</phase>
             <goals>
              <goal>copy</goal>
@@ -63,10 +63,10 @@
             <configuration>
               <artifactItems>
                 <artifactItem>
-                  <groupId>org.apache.derby</groupId>
-                  <artifactId>derby</artifactId>
-                  <version>10.13.1.1</version>
-                  <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/DerbyLibs</outputDirectory>
+                  <groupId>mysql</groupId>
+                  <artifactId>mysql-connector-java</artifactId>
+                  <version>8.0.21</version>
+                  <outputDirectory>${project.build.directory}/liberty/wlp/usr/shared/resources/MySQLLibs</outputDirectory>
                 </artifactItem>
               </artifactItems>
             </configuration>

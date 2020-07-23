@@ -20,7 +20,7 @@ public class OutboxEventBean implements Serializable {
     private static final long serialVersionUID = 9198643360302722475L;
 
     @Id
-    @TableGenerator(name = "outboxeventIdGen", table = "KEYGENEJB", pkColumnName = "KEYNAME", valueColumnName = "KEYVAL", pkColumnValue = "outboxevent", allocationSize = 1000)
+    @TableGenerator(name = "outboxeventIdGen", table = "keygenejb", pkColumnName = "keyname", valueColumnName = "keyval", pkColumnValue = "outboxevent", allocationSize = 1000)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "outboxeventIdGen")
     @Column(name = "ID", nullable = false)
     private String id;

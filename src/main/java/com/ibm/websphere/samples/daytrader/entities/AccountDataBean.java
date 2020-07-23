@@ -50,7 +50,7 @@ public class AccountDataBean implements Serializable {
     private static final long serialVersionUID = 8437841265136840545L;
 
     /* Accessor methods for persistent fields */
-    @TableGenerator(name = "accountIdGen", table = "KEYGENEJB", pkColumnName = "KEYNAME", valueColumnName = "KEYVAL", pkColumnValue = "account", allocationSize = 1000)
+    @TableGenerator(name = "accountIdGen", table = "keygenejb", pkColumnName = "keyname", valueColumnName = "keyval", pkColumnValue = "account", allocationSize = 1000)
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "accountIdGen")
     @Column(name = "ACCOUNTID", nullable = false)

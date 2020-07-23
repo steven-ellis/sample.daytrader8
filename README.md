@@ -28,6 +28,11 @@ The server will listen on port 9080 by default.  You can change the port (for ex
 Once the server is started, you should be able to access the application at:
 http://localhost:9080/daytrader
 
+## MySQL Database
+
+This will allow you to run a MySQL database locally:
+`docker run -d --name tradedb -e MYSQL_ROOT_PASSWORD=password -e MYSQL_USER=tradedb -e MYSQL_PASSWORD=password -e MYSQL_DATABASE=tradedb -p 3306:3306 mysql:8.0`
+
 
 
 ## Notice

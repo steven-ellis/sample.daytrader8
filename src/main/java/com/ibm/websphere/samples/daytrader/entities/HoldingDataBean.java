@@ -48,7 +48,7 @@ public class HoldingDataBean implements Serializable {
     private static final long serialVersionUID = -2338411656251935480L;
 
     @Id
-    @TableGenerator(name = "holdingIdGen", table = "KEYGENEJB", pkColumnName = "KEYNAME", valueColumnName = "KEYVAL", pkColumnValue = "holding", allocationSize = 1000)
+    @TableGenerator(name = "holdingIdGen", table = "keygenejb", pkColumnName = "keyname", valueColumnName = "keyval", pkColumnValue = "holding", allocationSize = 1000)
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "holdingIdGen")
     @Column(name = "HOLDINGID", nullable = false)
     private Integer holdingID; /* holdingID */
