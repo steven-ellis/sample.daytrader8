@@ -24,7 +24,7 @@
 		<httpOptions maxKeepAliveRequests="-1"/>
 	</httpEndpoint>
 
-	<webApplication id="daytrader8" location="io.openliberty.sample.daytrader8.war" name="daytrader8" context-root="daytrader"/>
+	<webApplication id="daytrader8" location="io.openliberty.sample.daytrader8.war" name="daytrader8" context-root="/"/>
 
 	<connectionManager agedTimeout="-1" connectionTimeout="0" id="conMgr1" maxIdleTime="-1" maxPoolSize="100" minPoolSize="100" purgePolicy="FailingConnectionOnly" reapTime="-1"/> 
 
@@ -32,8 +32,6 @@
 	<library id="MYSQLJCCLib" filesetRef="MYSQLJCCFileset"/>
 	<fileset id="MYSQLJCCFileset" dir="${shared.resource.dir}/MySQLLibs" includes="mysql-connector-java-8.0.21.jar"/>
 
-	<authData id="TradeDataSourceAuthData" user="${env.dbUser}" password="${env.dbPass}"/>
-	<authData id="TradeAdminAuthData" user="${env.dbUser}" password="${env.dbPass}"/>
 
 	<dataSource jndiName="jdbc/TradeDataSource" jdbcDriverRef="MYSQLJCC" id="DefaultDataSource" connectionManagerRef="conMgr1" statementCacheSize="60" isolationLevel="TRANSACTION_READ_COMMITTED" type="javax.sql.ConnectionPoolDataSource">
     	<properties serverName="mysql" portNumber="3306"
