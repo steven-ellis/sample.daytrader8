@@ -28,6 +28,7 @@
         <class>com.ibm.websphere.samples.daytrader.entities.HoldingDataBean</class>
         <class>com.ibm.websphere.samples.daytrader.entities.OrderDataBean</class>
         <class>com.ibm.websphere.samples.daytrader.entities.QuoteDataBean</class>
+        <class>com.ibm.websphere.samples.daytrader.entities.OutboxEventBean</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <shared-cache-mode>NONE</shared-cache-mode>
     </persistence-unit>

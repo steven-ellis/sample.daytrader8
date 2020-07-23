@@ -58,7 +58,9 @@ import com.ibm.websphere.samples.daytrader.entities.AccountDataBean;
 import com.ibm.websphere.samples.daytrader.entities.AccountProfileDataBean;
 import com.ibm.websphere.samples.daytrader.entities.HoldingDataBean;
 import com.ibm.websphere.samples.daytrader.entities.OrderDataBean;
+import com.ibm.websphere.samples.daytrader.entities.OutboxEventBean;
 import com.ibm.websphere.samples.daytrader.entities.QuoteDataBean;
+import com.ibm.websphere.samples.daytrader.events.OrderCreatedEvent;
 import com.ibm.websphere.samples.daytrader.util.FinancialUtils;
 import com.ibm.websphere.samples.daytrader.util.Log;
 import com.ibm.websphere.samples.daytrader.util.RecentQuotePriceChangeList;
@@ -561,6 +563,12 @@ public class TradeSLSBBean implements TradeServices {
             order = new OrderDataBean(orderType, "open", new Timestamp(System.currentTimeMillis()), null, quantity, quote.getPrice().setScale(
                     FinancialUtils.SCALE, FinancialUtils.ROUND), TradeConfig.getOrderFee(orderType), account, quote, holding);
             entityManager.persist(order);
+
+            // Write event to the outbox table as part of the same transaction
+            OrderCreatedEvent orderCreatedEvent = OrderCreatedEvent.of(order);
+            OutboxEventBean outboxEvent = new OutboxEventBean(orderCreatedEvent);
+            entityManager.persist(outboxEvent);
+
         } catch (Exception e) {
             Log.error("TradeSLSBBean:createOrder -- failed to create Order. The stock/quote may not exist in the database.", e);
             throw new EJBException("TradeSLSBBean:createOrder -- failed to create Order. Check that the symbol exists in the database.", e);
