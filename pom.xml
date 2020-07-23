@@ -5,14 +5,7 @@
     <artifactId>io.openliberty.sample.daytrader8</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
-
-    <parent>
-      <groupId>net.wasdev.wlp.maven.parent</groupId>
-      <artifactId>liberty-maven-app-parent</artifactId>
-      <version>2.6.1</version>
-    </parent>
     
-
     <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -28,10 +21,10 @@
 	
     <dependencies>
       <dependency>
-        <groupId>javax</groupId>
-        <artifactId>javaee-api</artifactId>
-        <version>8.0</version>
-        <scope>provided</scope>
+          <groupId>jakarta.platform</groupId>
+          <artifactId>jakarta.jakartaee-api</artifactId>
+          <version>8.0.0</version>
+          <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>taglibs</groupId>
