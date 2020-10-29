@@ -19,7 +19,6 @@
     <package.file>${project.build.directory}/${app.name}.zip</package.file>
     <packaging.type>usr</packaging.type>
     <skipTests>false</skipTests>
-    <jkube-maven-plugin.version>1.0.1</jkube-maven-plugin.version>
   </properties>
 
   <dependencies>
@@ -151,22 +150,6 @@
             <default.https.port>${testServerHttpsPort}</default.https.port>
           </bootstrapProperties>
         </configuration>
-      </plugin>
-      <!-- Eclipse JKube OpenShift -->
-      <plugin>
-        <groupId>org.eclipse.jkube</groupId>
-        <artifactId>openshift-maven-plugin</artifactId>
-        <version>${jkube-maven-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>jkube</id>
-            <goals>
-              <goal>resource</goal>
-              <goal>build</goal>
-              <goal>deploy</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
