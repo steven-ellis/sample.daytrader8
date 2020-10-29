@@ -1,0 +1,9 @@
+---
+namespace: daytrader-dev
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+resources:
+ - kafka-connect.yaml
+ - mysql-connector.yaml

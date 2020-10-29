@@ -1,0 +1,22 @@
+---
+namespace: daytrader-dev
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: mysql-credentials
+    files:
+      - mysql-connection.properties
+
+resources:
+ - mysql-deployment.yaml
+ - mysql-service.yaml
+ - mysql-data-pvc.yaml
+ - postgresql-deployment.yaml
+ - postgresql-pgdata-pvc.yaml
+ - postgresql-pgwal-pvc.yaml
+ - postgresql-service.yaml
+ - db-adminer.yaml
+ - db-adminer-service.yaml
+ - db-adminer-route.yaml

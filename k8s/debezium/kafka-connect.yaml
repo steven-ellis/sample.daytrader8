@@ -1,0 +1,39 @@
+---
+apiVersion: kafka.strimzi.io/v1beta1
+kind: KafkaConnect
+metadata:
+  name: daytrader-debezium
+  annotations:
+    # enable connect operator
+    strimzi.io/use-connector-resources: "true"
+spec:
+  replicas: 1
+  version: 2.5.0
+  image: quay.io/kameshsampath/debezium-connect
+  imagePullPolicy: Always 
+  bootstrapServers: daytrader-kafka-bootstrap:9093
+  tls:
+    trustedCertificates:
+      - secretName: daytrader-cluster-ca-cert
+        certificate: ca.crt
+  resources:
+    requests:
+      memory: "2Gi"
+    limits:
+      memory: "4Gi"
+  jvmOptions:
+    gcLoggingEnabled: false
+  config:
+    group.id: daytrader-debezium
+    config.storage.replication.factor: 1
+    offset.storage.replication.factor: 1
+    status.storage.replication.factor: 1
+    config.providers: file
+    # load the secrets as file mysql-connection.properties
+    config.providers.file.class: org.apache.kafka.common.config.provider.FileConfigProvider
+  externalConfiguration:
+    externalConfiguration:
+    volumes:
+      - name: connector-config
+        secret:
+          secretName: mysql-credentials

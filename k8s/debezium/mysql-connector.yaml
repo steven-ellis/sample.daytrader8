@@ -1,0 +1,24 @@
+---
+kind: KafkaConnector
+apiVersion: kafka.strimzi.io/v1alpha1
+metadata:
+  # format dbkind-dbname-connector
+  name: mysql-daytrader-connector
+  labels:
+    # must match KafkaConnect cluster name
+    strimzi.io/cluster: daytrader-debezium
+spec:
+  tasksMax: 1
+  class: io.debezium.connector.mysql.MySqlConnector
+  config:
+    database.allowPublicKeyRetrieval: "true"
+    database.hostname: "mysql"
+    database.port: "3306"
+    database.user: "${file:/opt/kafka/external-configuration/connector-config/mysql-connection.properties:mysql_username}"
+    database.password: "${file:/opt/kafka/external-configuration/connector-config/mysql-connection.properties:mysql_password}"
+    database.server.id: "184054"
+    database.server.name: "openshift"
+    database.include.list: "inventory"
+    database.history.kafka.bootstrap.servers: "my-cluster-kafka-bootstrap:9092"
+    database.history.kafka.topic: "schema-changes.inventory"
+    include.schema.changes: "true" 

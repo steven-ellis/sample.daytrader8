@@ -1,0 +1,15 @@
+# Google only variables
+ansible_host: localhost
+# The OpenShift API Server
+api_server: https://api.gcp.kameshs.dev:6443
+#The OpenShift Admin User to use for installing operators
+openshift_admin_user: ocpadmin
+# the OpenShift Admin User password, gAfPw-zbacA-BRtRx-S5KoP
+openshift_admin_password: ma6$shMellow
+# The OpenShift Cloud Profile
+cloud_profile: gcp
+# If creating extra admin user the password to use
+ocpadmin_password: ma6$shMellow
+# If creating extra users,the user default password
+user_password: r3dh4t!
+

@@ -1,0 +1,21 @@
+#Azure Variables
+ansible_host: localhost
+
+#The OpenShift API Server
+api_server: https://api.azr.kameshs.me:6443
+
+#The OpenShift Admin User to use for installing operators
+openshift_admin_user: ocpadmin
+
+# the OpenShift Admin User password,2heJs-sgLdT-8WY96-s6Csz
+openshift_admin_password:  ging3rBre@d
+
+# The OpenShift Cloud Profile
+cloud_profile: azr
+
+# Extra admin user the password to use
+ocpadmin_password: ging3rBre@d
+
+# If creating extra users,the user default password
+user_password: r3dh4t!
+
