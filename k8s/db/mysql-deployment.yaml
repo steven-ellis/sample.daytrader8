@@ -18,6 +18,12 @@ spec:
         env:
          - name: MYSQL_ROOT_PASSWORD
            value: debezium
+         - name: MYSQL_DATABASE
+           value: inventory
+         - name: MYSQL_USER
+           value: debezium
+         - name: MYSQL_PASSWORD
+           value: debezium
         volumeMounts:
           - mountPath: /var/lib/mysql
             name: mysql-data
