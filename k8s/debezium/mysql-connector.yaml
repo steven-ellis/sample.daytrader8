@@ -19,6 +19,6 @@ spec:
     database.server.id: "184054"
     database.server.name: "openshift"
     database.include.list: "inventory"
-    database.history.kafka.bootstrap.servers: "my-cluster-kafka-bootstrap:9092"
+    database.history.kafka.bootstrap.servers: "daytrader-kafka-bootstrap:9092"
     database.history.kafka.topic: "schema-changes.inventory"
     include.schema.changes: "true" 

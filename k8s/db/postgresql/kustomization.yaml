@@ -1,0 +1,11 @@
+---
+namespace: daytrader-dev
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+resources:
+ - postgresql-deployment.yaml
+ - postgresql-pgdata-pvc.yaml
+ - postgresql-pgwal-pvc.yaml
+ - postgresql-service.yaml

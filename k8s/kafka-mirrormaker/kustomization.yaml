@@ -5,6 +5,4 @@ generatorOptions:
   disableNameSuffixHash: true
 
 resources:
- - db-adminer.yaml
- - db-adminer-service.yaml
- - db-adminer-route.yaml
+ - daytrader-mirrormaker.yaml

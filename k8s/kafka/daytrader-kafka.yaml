@@ -10,7 +10,7 @@ spec:
       plain: {}
       tls: {}
       external:
-        type: nodeport
+        type: loadbalancer
         tls: false
     config:
       offsets.topic.replication.factor: 3

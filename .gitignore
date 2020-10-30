@@ -13,3 +13,4 @@
 src/wlp/usr
 .workshopper
 .argocd
+!/bin/kafka-*.sh

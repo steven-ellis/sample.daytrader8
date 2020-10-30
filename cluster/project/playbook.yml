@@ -1,24 +1,3 @@
-# - name: Test
-#   hosts: gcp
-#   connection: local
-
-#   vars:
-#     ansible_python_interpreter: '{{ ansible_playbook_python }}'
-
-#   tasks:
-
-#     - debug: msg="deploy knative backend"
-#       when: "'backend' in tiers and 'knative' in backend_type|lower"
-
-#     - debug: msg="deploy vanilla backend"
-#       when: "'backend' in tiers and 'knative' not in backend_type|lower"
-
-#     - debug: msg="deploy frontend"
-#       when: "'frontend' in tiers"
-
-#     - fail:
-#         msg: "Test over"
-
 - name: "Day Trader Demo::Prepare for Play"
   hosts: all
   connection: local

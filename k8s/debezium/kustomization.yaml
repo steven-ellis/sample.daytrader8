@@ -1,9 +1,12 @@
 ---
 namespace: daytrader-dev
 
+commonLabels:
+  app.kubernetes.io/part-of: strimzi-daytrader
+
 generatorOptions:
   disableNameSuffixHash: true
 
 resources:
- - kafka-connect.yaml
+ - debezium-connect.yaml
  - mysql-connector.yaml
