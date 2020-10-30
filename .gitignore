@@ -1,7 +1,7 @@
 /.apt_generated/
 /target/
 /build/
-/bin/
+/scripts/
 .classpath
 .project
 /.settings/
@@ -13,4 +13,3 @@
 src/wlp/usr
 .workshopper
 .argocd
-!/bin/kafka-*.sh
