@@ -13,3 +13,5 @@
 src/wlp/usr
 .workshopper
 .argocd
+k8s/**/daytrader-mirrormaker.yaml
+*.iml

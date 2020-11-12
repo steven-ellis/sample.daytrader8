@@ -8,11 +8,11 @@ spec:
   connectCluster: "daytrader-kafka-aws"
   clusters:
     - alias: "daytrader-kafka-gcp"
-      bootstrapServers:
+      bootstrapServers: "<external bootstrap address>:9094"
     - alias: "daytrader-kafka-aws"
-      bootstrapServers: "<target-kafka-bootstrap>"
+      bootstrapServers: "<external bootstrap address>:9094"
     - alias: "daytrader-kafka-ibm"
-      bootstrapServers: "<target-kafka-bootstrap>"
+      bootstrapServers: "<external bootstrap address>:9094"
   mirrors:
     - sourceCluster: "daytrader-kafka-gcp"
       targetCluster: "daytrader-kafka-aws"
@@ -28,7 +28,7 @@ spec:
           checkpointConnector:
             config:
               checkpoints.topic.replication.factor: 1
-          topicsPattern: "openshift.inventory.outboxevent"
+          topicsPattern: "openshift.traderdb.outboxevent"
     - sourceCluster: "daytrader-kafka-gcp"
       targetCluster: "daytrader-kafka-ibm"
       sourceConnector:
@@ -43,4 +43,4 @@ spec:
           checkpointConnector:
             config:
               checkpoints.topic.replication.factor: 1
-          topicsPattern: "openshift.inventory.outboxevent"
+          topicsPattern: "openshift.traderdb.outboxevent"
