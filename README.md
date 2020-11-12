@@ -4,6 +4,12 @@
 
 ## Prepare Cluster
 
+### Create DayTrader project
+
+```shell script
+oc new-project daytrader-dev
+```
+
 ## Deploy Databases
 
 On clusters where MySQL DB is required
@@ -80,34 +86,10 @@ Check the status of the `mysql-daytrader-connector` to be ready:
  oc get KafkaConnector mysql-daytrader-connector -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'
 ```
 
-If the connector was initialized successfully then listing KafkaTopics like:
-
-```shell script
-./bin/kafka-list-topics 
-```
-Will list the following topics, you should see one topic per table of the DB with prefix `openshift.inventory.`.
-
-```text
-__consumer_offsets
-connect-cluster-configs
-connect-cluster-offsets
-connect-cluster-status
-daytrader.inventory.outboxevent
-openshift
-openshift.inventory.accountejb
-openshift.inventory.accountprofileejb
-openshift.inventory.holdingejb
-openshift.inventory.keygenejb
-openshift.inventory.orderejb
-openshift.inventory.outboxevent
-openshift.inventory.quoteejb
-schema-changes.inventory
-```
-
 ## Image Streams
 
 ```shell script
-oc create -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-s2i/master/imagestreams/openliberty-ubi-min.json -n openshift
+oc create -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-s2i/master/imagestreams/openliberty-ubi-min.json
 ```
 
 ## Deploy Application
@@ -140,6 +122,30 @@ curl -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=bui
 
 ```shell script
 oc apply -k k8s/debezium
+```
+
+## List Kafka Topics
+
+```shell script
+./scripts/kafka-list-topics 
+```
+Will list the following topics, you should see one topic per table of the DB with prefix `openshift.inventory.`.
+
+```text
+__consumer_offsets
+connect-cluster-configs
+connect-cluster-offsets
+connect-cluster-status
+daytrader.inventory.outboxevent
+openshift
+openshift.inventory.accountejb
+openshift.inventory.accountprofileejb
+openshift.inventory.holdingejb
+openshift.inventory.keygenejb
+openshift.inventory.orderejb
+openshift.inventory.outboxevent
+openshift.inventory.quoteejb
+schema-changes.inventory
 ```
 
 ## Access the Application

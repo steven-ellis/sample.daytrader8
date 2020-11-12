@@ -15,15 +15,32 @@
 # Each SQL statement in this file should terminate with a semicolon (;)
 # Lines starting with the pound character (#) are considered as comments
 
+-- CREATE USER IF NOT EXISTS 'replicator'@'%' IDENTIFIED BY 'replpass';
+--
+-- GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'replicator'@'%';
+--
+-- CREATE USER IF NOT EXISTS 'debezium'@'%' IDENTIFIED BY 'debezium';
+--
+-- CREATE DATABASE IF NOT EXISTS traderdb;
+--
+-- GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT  ON *.* TO 'debezium'@'%';
+--
+-- GRANT ALL PRIVILEGES ON traderdb.* TO 'debezium'@'%';
+
+CREATE USER IF NOT EXISTS 'debezium'@'%' IDENTIFIED BY 'debezium';
+
 CREATE USER IF NOT EXISTS 'replicator'@'%' IDENTIFIED BY 'replpass';
 
 GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'replicator'@'%';
 
 CREATE USER IF NOT EXISTS 'debezium'@'%' IDENTIFIED BY 'debezium';
 
+GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT  ON *.* TO 'debezium'@'%';
+
+CREATE DATABASE IF NOT EXISTS inventory;
 CREATE DATABASE IF NOT EXISTS traderdb;
 
-GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT  ON *.* TO 'debezium'@'%';
+GRANT ALL PRIVILEGES ON inventory.* TO 'debezium'@'%';
 
 GRANT ALL PRIVILEGES ON traderdb.* TO 'debezium'@'%';
 

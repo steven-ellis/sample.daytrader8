@@ -3,7 +3,7 @@ set -e
 
 trap '{ echo "" ; exit 1; }' INT
 
-KAFKA_CLUSTER_NS=${1:-'daytrader'}
+KAFKA_CLUSTER_NS=${1:-'daytrader-dev'}
 KAFKA_CLUSTER_NAME=${2:-'daytrader'}
 KAFKA_TOPIC=${3:-'openshift.inventory.outboxevent'}
 
