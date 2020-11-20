@@ -1,0 +1,4 @@
+---
+resources:
+ - debezium-connect.yaml
+ - mysql-connector.yaml

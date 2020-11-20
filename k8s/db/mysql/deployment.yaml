@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  labels:
+    app.kubernetesio/part-of: DB
 spec:
   selector:
     matchLabels:
@@ -19,7 +21,7 @@ spec:
          - name: MYSQL_ROOT_PASSWORD
            value: debezium
          - name: MYSQL_DATABASE
-           value: inventory
+           value: traderdb
          - name: MYSQL_USER
            value: debezium
          - name: MYSQL_PASSWORD

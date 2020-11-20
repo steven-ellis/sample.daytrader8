@@ -1,0 +1,11 @@
+---
+namespace: daytrader
+
+commonLabels:
+  app.kubernetes.io/part-of: strimzi-daytrader
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+bases:
+  - ../base

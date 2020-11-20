@@ -2,46 +2,17 @@
 
 ## Pre-requisites
 
+- OpenShift 4 Cluster
+- Strimizi Kafka
+
 ## Prepare Cluster
-
-### Create DayTrader project
-
-```shell script
-oc new-project daytrader-dev
-```
 
 ## Deploy Databases
 
-On clusters where MySQL DB is required
+On clusters where heritage application `sampledaytrader` is deployed, deployed MySQL:
 
 ```shell script
-oc apply -k k8s/db/mysql
-```
-Login into the MySQL Database as root user the execute the following privileges SQL:
-
-```sql
-CREATE USER IF NOT EXISTS 'debezium'@'%' IDENTIFIED BY 'debezium';
-
-CREATE USER IF NOT EXISTS 'replicator'@'%' IDENTIFIED BY 'replpass';
-
-GRANT REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'replicator'@'%';
-
-CREATE USER IF NOT EXISTS 'debezium'@'%' IDENTIFIED BY 'debezium';
-
-GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE, REPLICATION CLIENT  ON *.* TO 'debezium'@'%';
-
-CREATE DATABASE IF NOT EXISTS inventory;
-CREATE DATABASE IF NOT EXISTS traderdb;
-
-GRANT ALL PRIVILEGES ON inventory.* TO 'debezium'@'%';
-
-GRANT ALL PRIVILEGES ON traderdb.* TO 'debezium'@'%';
-```
-
-On clusters where PostgreSQL is required
-
-```shell script
-oc apply -k k8s/db/postgresql
+oc apply -k k8s/db/mysql/prod
 ```
 
 (Optional)
@@ -49,19 +20,19 @@ oc apply -k k8s/db/postgresql
 If you need Web based DB Console then run the following command on the clusters:
 
 ```shell script
-oc apply -k k8s/db
+oc apply -k k8s/db/adminer/prod
 ```
 
 ## Deploy Kafka
 
 ```shell script
-oc apply -k k8s/kafka
+oc apply -k k8s/kafka/prod
 ```
 
 ## Deploy Debezium KafkaConnect and MySQL KafkaConnector
 
 ```shell script
-oc apply -k k8s/debezium
+oc apply -k k8s/debezium/prod
 ```
 
 __NOTE__: This will take few mins for the Connector to be activated
@@ -86,20 +57,13 @@ Check the status of the `mysql-daytrader-connector` to be ready:
  oc get KafkaConnector mysql-daytrader-connector -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'
 ```
 
-## Image Streams
-
-```shell script
-oc create -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-s2i/master/imagestreams/openliberty-ubi-min.json
-```
-
 ## Deploy Application
 
 ```shell script
-oc new-app openliberty:~https://github.com/kameshsampath/sample.daytrader8#sko-demo -n daytrader-dev
+oc apply -k k8s/sampledaytrader8/prod
 ```
 
 ```shell script
-oc create route edge --service=sampledaytrader8 --port=9080 daytrader
 export DAYTRADER_ROUTE="https://$(oc get route daytrader -ojsonpath='{.spec.host}')"
 ```
 
@@ -136,18 +100,47 @@ __consumer_offsets
 connect-cluster-configs
 connect-cluster-offsets
 connect-cluster-status
-daytrader.inventory.outboxevent
 openshift
-openshift.inventory.accountejb
-openshift.inventory.accountprofileejb
-openshift.inventory.holdingejb
-openshift.inventory.keygenejb
-openshift.inventory.orderejb
-openshift.inventory.outboxevent
-openshift.inventory.quoteejb
-schema-changes.inventory
+openshift.traderdb.accountejb
+openshift.traderdb.accountprofileejb
+openshift.traderdb.holdingejb
+openshift.traderdb.keygenejb
+openshift.traderdb.orderejb
+openshift.traderdb.quoteejb
+schema-changes.traderdb
 ```
 
 ## Access the Application
 
+```shell script
 $DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/
+```
+
+## Development
+
+### Building Debezium MySql Connector 
+
+```shell script
+cd k8s/debezium
+docker build --no-cache <container-registry>/debezium-connect
+docker push <container-registry>/debezium-connect
+```
+
+__NOTE__: Be sure to update the k8s/debezium/debezium-connect.yaml with image image from the build
+
+### Image Streams
+
+```shell script
+oc create -f https://raw.githubusercontent.com/OpenLiberty/open-liberty-s2i/master/imagestreams/openliberty-ubi-min.json
+```
+
+### Deploy Application
+
+```shell script
+oc new-app openliberty:~https://github.com/kameshsampath/sample.daytrader8#sko-demo -n daytrader-dev
+```
+
+```shell script
+oc create route edge --service=sampledaytrader8 --port=9080 daytrader
+export DAYTRADER_ROUTE="https://$(oc get route daytrader -ojsonpath='{.spec.host}')"
+```

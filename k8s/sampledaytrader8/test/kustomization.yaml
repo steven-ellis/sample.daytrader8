@@ -1,8 +1,11 @@
 ---
-namespace: daytrader-dev
+namespace: daytrader-test
 
 generatorOptions:
   disableNameSuffixHash: true
 
+bases:
+  - ../base
+
 resources:
- - daytrader-mirrormaker.yaml
+  - namespace.yaml

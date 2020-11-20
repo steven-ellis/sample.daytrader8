@@ -1,8 +1,11 @@
 ---
-namespace: daytrader-dev
+namespace: daytrader
 
 generatorOptions:
   disableNameSuffixHash: true
 
+bases:
+  - ../base
+
 resources:
- - daytrader-kafka.yaml
+  - namespace.yaml

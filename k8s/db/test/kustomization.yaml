@@ -1,0 +1,17 @@
+---
+namespace: daytrader-test
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+secretGenerator:
+  - name: mysql-credentials
+    files:
+      - mysql-connection.properties
+
+bases:
+  - ../adminer
+  - ../mysql
+
+resources:
+  - namespace.yaml

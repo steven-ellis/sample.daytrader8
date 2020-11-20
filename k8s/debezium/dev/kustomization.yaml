@@ -7,6 +7,5 @@ commonLabels:
 generatorOptions:
   disableNameSuffixHash: true
 
-resources:
- - debezium-connect.yaml
- - mysql-connector.yaml
+bases:
+  - ../base
