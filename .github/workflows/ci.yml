@@ -63,5 +63,5 @@ jobs:
            file: ./Dockerfile
            registry: quay.io
            tags: |
-            ${{CONTAINER_REPO}}/${{CONTAINER_IMAGE_REPO}}:${{steps.commit_metadata.outputs.branch}}-${{steps.commit_metadata.outputs.sha}}
-            ${{CONTAINER_REPO}}/${{CONTAINER_IMAGE_REPO}}:latest
+            ${{env.CONTAINER_REPO}}/${{env.CONTAINER_IMAGE_REPO}}:${{steps.commit_metadata.outputs.branch}}-${{steps.commit_metadata.outputs.sha}}
+            ${{env.CONTAINER_REPO}}/${{env.CONTAINER_IMAGE_REPO}}:latest
