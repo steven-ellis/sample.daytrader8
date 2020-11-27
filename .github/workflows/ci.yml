@@ -1,10 +1,11 @@
 name: Application Build and Push
+env:
+   CONTAINER_REPO: "quay.io"
+   CONTAINER_IMAGE_REPO: "kameshsampath/openliberty.sampledaytrader8"
 on:
   push:
     branches: [ sko-demo ]
-  env:
-    CONTAINER_REPO: "quay.io"
-    CONTAINER_IMAGE_REPO: "kameshsampath/openliberty.sampledaytrader8"
+
 jobs:
   checkoutAndBuild:
     runs-on: ubuntu-latest
