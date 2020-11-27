@@ -48,9 +48,9 @@ jobs:
            registry: ${{ env.CONTAINER_REPO }}
            username: ${{ secrets.QUAY_USER }}
            password: ${{ secrets.QUAY_PASSWORD }}
-      - name: Commit Metadata
-          id: commit_metadata
-          run: |
+       - name: Commit Metadata
+         id: commit_metadata
+         run: |
             echo "##[set-output name=sha;]$(echo $(git rev-parse --short $GITHUB_SHA))"
             echo "##[set-output name=branch;]$(echo ${GITHUB_REF##*/})"
        - name: Build and Push to GitHub Container Registry
