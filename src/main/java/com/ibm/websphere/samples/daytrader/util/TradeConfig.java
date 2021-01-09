@@ -1,29 +1,31 @@
 /**
  * (C) Copyright IBM Corporation 2015.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.ibm.websphere.samples.daytrader.util;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
  * TradeConfig is a JavaBean holding all configuration and runtime parameters
  * for the Trade application TradeConfig sets runtime parameters such as the
  * RunTimeMode (EJB, JDBC, EJB_ALT)
- *
  */
 
 public class TradeConfig {
@@ -31,24 +33,27 @@ public class TradeConfig {
   /* Trade Runtime Configuration Parameters */
 
   /* Trade Runtime Mode parameters */
-  private static String[] runTimeModeNames = { "Full EJB3", "Direct (JDBC)", "Session to Direct"};
+  private static String[] runTimeModeNames = {"Full EJB3", "Direct (JDBC)",
+      "Session to Direct"};
   public static final int EJB3 = 0;
   public static final int DIRECT = 1;
   public static final int SESSION_TO_DIRECT = 2;
   private static int runTimeMode = EJB3;
 
-  private static String[] orderProcessingModeNames = { "Sync", "Async","Async_2-Phase" };
+  private static String[] orderProcessingModeNames = {"Sync", "Async",
+      "Async_2-Phase"};
   public static final int SYNCH = 0;
   public static final int ASYNCH = 1;
   public static final int ASYNCH_2PHASE = 2;
   private static int orderProcessingMode = SYNCH;
 
-  private static String[] accessModeNames = { "Standard", "WebServices" };
+  private static String[] accessModeNames = {"Standard", "WebServices"};
   public static final int STANDARD = 0;
   private static int accessMode = STANDARD;
 
   /* Trade Web Interface parameters */
-  private static String[] webInterfaceNames = { "JSP", "JSP-Images", "JSP-Images-Http2" };
+  private static String[] webInterfaceNames = {"JSP", "JSP-Images",
+      "JSP-Images-Http2"};
   public static final int JSP = 0;
   public static final int JSP_Images = 1;
   public static final int JSP_Images_HTTP2 = 2;
@@ -58,7 +63,7 @@ public class TradeConfig {
   private static int MAX_USERS = 15000;
   private static int MAX_QUOTES = 10000;
 
-  
+
   /* Trade XA Datasource specific parameters */
   public static boolean JDBCDriverNeedsGlobalTransation = false;
 
@@ -87,8 +92,8 @@ public class TradeConfig {
 
   /**
    * -1 means every operation 0 means never perform a market summary > 0 means
-   * number of seconds between summaries. These will be synchronized so only
-   * one transaction in this period will create a summary and will cache its
+   * number of seconds between summaries. These will be synchronized so only one
+   * transaction in this period will create a summary and will cache its
    * results.
    */
   private static int marketSummaryInterval = 20;
@@ -100,11 +105,13 @@ public class TradeConfig {
    */
   public static BigDecimal PENNY_STOCK_PRICE;
   public static BigDecimal PENNY_STOCK_RECOVERY_MIRACLE_MULTIPLIER;
+
   static {
     PENNY_STOCK_PRICE = new BigDecimal(0.01);
     PENNY_STOCK_PRICE = PENNY_STOCK_PRICE.setScale(2, BigDecimal.ROUND_HALF_UP);
     PENNY_STOCK_RECOVERY_MIRACLE_MULTIPLIER = new BigDecimal(600.0);
-    PENNY_STOCK_RECOVERY_MIRACLE_MULTIPLIER.setScale(2, BigDecimal.ROUND_HALF_UP);
+    PENNY_STOCK_RECOVERY_MIRACLE_MULTIPLIER.setScale(2,
+        BigDecimal.ROUND_HALF_UP);
   }
 
   /*
@@ -116,6 +123,7 @@ public class TradeConfig {
 
   public static BigDecimal MAXIMUM_STOCK_PRICE;
   public static BigDecimal MAXIMUM_STOCK_SPLIT_MULTIPLIER;
+
   static {
     MAXIMUM_STOCK_PRICE = new BigDecimal(400);
     MAXIMUM_STOCK_PRICE.setScale(2, BigDecimal.ROUND_HALF_UP);
@@ -144,10 +152,11 @@ public class TradeConfig {
 
   private static int[][] scenarioMixes = {
       // h q l o r a p b s u
-      { 20, 40, 0, 4, 2, 10, 12, 4, 4, 4 }, // STANDARD
-      { 20, 40, 0, 4, 2, 7, 7, 7, 7, 6 }, // High Volume
+      {20, 40, 0, 4, 2, 10, 12, 4, 4, 4}, // STANDARD
+      {20, 40, 0, 4, 2, 7, 7, 7, 7, 6}, // High Volume
   };
-  private static char[] actions = { 'h', 'q', 'l', 'o', 'r', 'a', 'p', 'b', 's', 'u' };
+  private static char[] actions = {'h', 'q', 'l', 'o', 'r', 'a', 'p', 'b', 's',
+      'u'};
   private static int sellDeficit = 0;
   // Tracks the number of buys over sell when a users portfolio is empty
   // Used to maintain the correct ratio of buys/sells
@@ -167,14 +176,20 @@ public class TradeConfig {
 
   // FUTURE Add XML/XSL View
   public static String[][] webUI = {
-      { "/welcome.jsp", "/register.jsp", "/portfolio.jsp", "/quote.jsp", "/tradehome.jsp", "/account.jsp", "/order.jsp", "/config.jsp", "/runStats.jsp",
-      "/marketSummary.jsp" },
+      {"/welcome.jsp", "/register.jsp", "/portfolio.jsp", "/quote.jsp",
+          "/tradehome.jsp", "/account.jsp", "/order.jsp", "/config.jsp",
+          "/runStats.jsp",
+          "/marketSummary.jsp"},
       // JSP Interface
-      { "/welcomeImg.jsp", "/registerImg.jsp", "/portfolioImg.jsp", "/quoteImg.jsp", "/tradehomeImg.jsp", "/accountImg.jsp", "/orderImg.jsp",
-        "/config.jsp", "/runStats.jsp", "/marketSummary.jsp" },
+      {"/welcomeImg.jsp", "/registerImg.jsp", "/portfolioImg.jsp",
+          "/quoteImg.jsp", "/tradehomeImg.jsp", "/accountImg.jsp",
+          "/orderImg.jsp",
+          "/config.jsp", "/runStats.jsp", "/marketSummary.jsp"},
       // JSP Interface
-      { "/welcomeImg.jsp", "/registerImg.jsp", "/portfolioImg.jsp", "/quoteImg.jsp", "/tradehomeImg.jsp", "/accountImg.jsp", "/orderImg.jsp",
-          "/config.jsp", "/runStats.jsp", "/marketSummary.jsp" },
+      {"/welcomeImg.jsp", "/registerImg.jsp", "/portfolioImg.jsp",
+          "/quoteImg.jsp", "/tradehomeImg.jsp", "/accountImg.jsp",
+          "/orderImg.jsp",
+          "/config.jsp", "/runStats.jsp", "/marketSummary.jsp"},
   };
 
 
@@ -185,7 +200,8 @@ public class TradeConfig {
   private static String getHostname() {
     try {
       if (hostName == null) {
-        hostName = java.net.InetAddress.getLocalHost().getHostName();
+        hostName = java.net.InetAddress.getLocalHost()
+                                       .getHostName();
         // Strip of fully qualifed domain if necessary
         try {
           hostName = hostName.substring(0, hostName.indexOf('.'));
@@ -271,7 +287,8 @@ public class TradeConfig {
   private static final BigDecimal cashFee = new BigDecimal("0.0");
 
   public static BigDecimal getOrderFee(String orderType) {
-    if ((orderType.compareToIgnoreCase("BUY") == 0) || (orderType.compareToIgnoreCase("SELL") == 0)) {
+    if ((orderType.compareToIgnoreCase("BUY") == 0) || (
+        orderType.compareToIgnoreCase("SELL") == 0)) {
       return orderFee;
     }
 
@@ -312,7 +329,8 @@ public class TradeConfig {
   }
 
   public static String rndCreditCard() {
-    return rndInt(100) + "-" + rndInt(1000) + "-" + rndInt(1000) + "-" + rndInt(1000);
+    return rndInt(100) + "-" + rndInt(1000) + "-" + rndInt(1000) + "-" + rndInt(
+        1000);
   }
 
   public static String rndEmail(String userID) {
@@ -362,7 +380,8 @@ public class TradeConfig {
     percentGain += 1;
 
     // change factor is between +/- 20%
-    BigDecimal percentGainBD = (new BigDecimal(percentGain)).setScale(2, BigDecimal.ROUND_HALF_UP);
+    BigDecimal percentGainBD = (new BigDecimal(percentGain)).setScale(2,
+        BigDecimal.ROUND_HALF_UP);
     if (percentGainBD.doubleValue() <= 0.0) {
       percentGainBD = ONE;
     }
@@ -375,12 +394,16 @@ public class TradeConfig {
   }
 
   public static String rndSymbol() {
-    return "s:" + rndInt(MAX_QUOTES - 1);
+    List<String> fixedSymbols = Arrays.asList("AERO", "BACD", "ACME", "MSK",
+        "EXAT");
+    Collections.rotate(fixedSymbols, rndInt(4));
+    return fixedSymbols.get(0);
+    // return "s:" + rndInt(MAX_QUOTES - 1);
   }
 
   public static String rndSymbols() {
-
-    String symbols = "";
+    return "AERO,MSK,ACME,BACD,EXAT";
+   /* String symbols = "";
     int num_symbols = rndInt(QUOTES_PER_PAGE);
 
     for (int i = 0; i <= num_symbols; i++) {
@@ -388,15 +411,14 @@ public class TradeConfig {
       if (i < num_symbols) {
         symbols += ",";
       }
-    }
-    return symbols;
+    }*/
+
   }
 
   public static String rndUserID() {
     String nextUser = getNextUserIDFromDeck();
 
     Log.trace("TradeConfig:rndUserID -- new trader = " + nextUser);
-
 
     return nextUser;
   }
@@ -424,11 +446,10 @@ public class TradeConfig {
 
   /**
    * This is a convenience method for servlets to set Trade configuration
-   * parameters from servlet initialization parameters. The servlet provides
-   * the init param and its value as strings. This method then parses the
-   * parameter, converts the value to the correct type and sets the
-   * corresponding TradeConfig parameter to the converted value
-   *
+   * parameters from servlet initialization parameters. The servlet provides the
+   * init param and its value as strings. This method then parses the parameter,
+   * converts the value to the correct type and sets the corresponding
+   * TradeConfig parameter to the converted value
    */
   public static void setConfigParam(String parm, String value) {
     Log.log("TradeConfig setting parameter: " + parm + "=" + value);
@@ -459,8 +480,10 @@ public class TradeConfig {
           }
         }
       } catch (Exception e) {
-        Log.error("TradeConfig.setConfigParm(..): minor exception caught" + "trying to set orderProcessingMode to " + value
-            + "reverting to current value: " + orderProcessingModeNames[orderProcessingMode], e);
+        Log.error("TradeConfig.setConfigParm(..): minor exception caught"
+            + "trying to set orderProcessingMode to " + value
+            + "reverting to current value: "
+            + orderProcessingModeNames[orderProcessingMode], e);
       } // If the value is bad, simply revert to current
     } else if (parm.equalsIgnoreCase("accessMode")) {
       try {
@@ -471,7 +494,9 @@ public class TradeConfig {
           }
         }
       } catch (Exception e) {
-        Log.error("TradeConfig.setConfigParm(..): minor exception caught" + "trying to set accessMode to " + value + "reverting to current value: "
+        Log.error("TradeConfig.setConfigParm(..): minor exception caught"
+            + "trying to set accessMode to " + value
+            + "reverting to current value: "
             + accessModeNames[accessMode], e);
       }
     } else if (parm.equalsIgnoreCase("WebInterface")) {
@@ -483,7 +508,9 @@ public class TradeConfig {
           }
         }
       } catch (Exception e) {
-        Log.error("TradeConfig.setConfigParm(..): minor exception caught" + "trying to set WebInterface to " + value + "reverting to current value: "
+        Log.error("TradeConfig.setConfigParm(..): minor exception caught"
+            + "trying to set WebInterface to " + value
+            + "reverting to current value: "
             + webInterfaceNames[webInterface], e);
 
       } // If the value is bad, simply revert to current
@@ -491,7 +518,8 @@ public class TradeConfig {
       try {
         MAX_USERS = Integer.parseInt(value);
       } catch (Exception e) {
-        Log.error("TradeConfig.setConfigParm(..): minor exception caught" + "Setting maxusers, error parsing string to int:" + value
+        Log.error("TradeConfig.setConfigParm(..): minor exception caught"
+            + "Setting maxusers, error parsing string to int:" + value
             + "revering to current value: " + MAX_USERS, e);
       } // On error, revert to saved
     } else if (parm.equalsIgnoreCase("maxQuotes")) {
@@ -499,7 +527,8 @@ public class TradeConfig {
         MAX_QUOTES = Integer.parseInt(value);
       } catch (Exception e) {
         // >>rjm
-        Log.error("TradeConfig.setConfigParm(...) minor exception caught" + "Setting max_quotes, error parsing string to int " + value
+        Log.error("TradeConfig.setConfigParm(...) minor exception caught"
+            + "Setting max_quotes, error parsing string to int " + value
             + "reverting to current value: " + MAX_QUOTES, e);
         // <<rjm
       } // On error, revert to saved
@@ -507,10 +536,11 @@ public class TradeConfig {
       try {
         primIterations = Integer.parseInt(value);
       } catch (Exception e) {
-        Log.error("TradeConfig.setConfigParm(..): minor exception caught" + "Setting primIterations, error parsing string to int:" + value
+        Log.error("TradeConfig.setConfigParm(..): minor exception caught"
+            + "Setting primIterations, error parsing string to int:" + value
             + "revering to current value: " + primIterations, e);
       } // On error, revert to saved
-    } 
+    }
   }
 
   /**
@@ -561,8 +591,7 @@ public class TradeConfig {
   /**
    * Sets the mAX_USERS.
    *
-   * @param mAX_USERS
-   *            The mAX_USERS to set
+   * @param mAX_USERS The mAX_USERS to set
    */
   public static void setMAX_USERS(int mAX_USERS) {
     MAX_USERS = mAX_USERS;
@@ -581,8 +610,7 @@ public class TradeConfig {
   /**
    * Sets the mAX_QUOTES.
    *
-   * @param mAX_QUOTES
-   *            The mAX_QUOTES to set
+   * @param mAX_QUOTES The mAX_QUOTES to set
    */
   public static void setMAX_QUOTES(int mAX_QUOTES) {
     MAX_QUOTES = mAX_QUOTES;
@@ -600,8 +628,7 @@ public class TradeConfig {
   /**
    * Sets the mAX_HOLDINGS.
    *
-   * @param mAX_HOLDINGS
-   *            The mAX_HOLDINGS to set
+   * @param mAX_HOLDINGS The mAX_HOLDINGS to set
    */
   public static void setMAX_HOLDINGS(int mAX_HOLDINGS) {
     MAX_HOLDINGS = mAX_HOLDINGS;
@@ -619,8 +646,7 @@ public class TradeConfig {
   /**
    * Sets the scenarioCount.
    *
-   * @param scenarioCount
-   *            The scenarioCount to set
+   * @param scenarioCount The scenarioCount to set
    */
   public static void setScenarioCount(int scenarioCount) {
     TradeConfig.scenarioCount = scenarioCount;
@@ -644,10 +670,10 @@ public class TradeConfig {
   /**
    * Sets the jdbc driver needs global transaction
    *
-   * @param JDBCDriverNeedsGlobalTransationVal
-   *            the value
+   * @param JDBCDriverNeedsGlobalTransationVal the value
    */
-  public static void setJDBCDriverNeedsGlobalTransation(boolean JDBCDriverNeedsGlobalTransationVal) {
+  public static void setJDBCDriverNeedsGlobalTransation(
+      boolean JDBCDriverNeedsGlobalTransationVal) {
     JDBCDriverNeedsGlobalTransation = JDBCDriverNeedsGlobalTransationVal;
   }
 
@@ -663,8 +689,7 @@ public class TradeConfig {
   /**
    * Sets the updateQuotePrices.
    *
-   * @param updateQuotePrices
-   *            The updateQuotePrices to set
+   * @param updateQuotePrices The updateQuotePrices to set
    */
   public static void setUpdateQuotePrices(boolean updateQuotePrices) {
     TradeConfig.updateQuotePrices = updateQuotePrices;
@@ -686,7 +711,8 @@ public class TradeConfig {
     TradeConfig.longRun = longRun;
   }
 
-  public static void setPublishQuotePriceChange(boolean publishQuotePriceChange) {
+  public static void setPublishQuotePriceChange(
+      boolean publishQuotePriceChange) {
     TradeConfig.publishQuotePriceChange = publishQuotePriceChange;
   }
 
@@ -747,6 +773,6 @@ public class TradeConfig {
   }
 
   public static int getListQuotePriceChangeFrequency() {
-    return  listQuotePriceChangeFrequency;
-  }	
+    return listQuotePriceChangeFrequency;
+  }
 }

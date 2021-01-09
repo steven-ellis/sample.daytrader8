@@ -39,60 +39,6 @@ oc apply -k k8s/db/mysql/prod
 
 ----
 
-(Optional)
-
-If you need Web based DB Console then run the following command on the clusters:
-
-[source,shell script]
-----
-oc apply -k k8s/db/adminer/prod
-
-----
-
-== Deploy Kafka
-
-[source,shell script]
-----
-oc apply -k k8s/kafka/prod
-
-----
-
-== Deploy Debezium KafkaConnect and MySQL KafkaConnector
-
-[source,shell script]
-----
-oc apply -k k8s/debezium/prod
-
-----
-
-*NOTE*: This will take few mins for the Connector to be activated
-
-Wait for the KafkaConnect `daytrader-debezium-connect` pod to be running:
-
-[source,shell script]
-----
-watch oc get pods -l=strimzi.io/name=daytrader-debezium-connect
-
-----
-
-A successful KafkaConnect should show "Ready" to be "True":
-
-[source,shell script]
-----
- oc get KafkaConnect daytrader-debezium -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'
-
-----
-
-*NOTE*: It will take few seconds for the KafkaConnector to be reconciled. Wait for few mins before you run the following commands to check the status.
-
-Check the status of the `mysql-daytrader-connector` to be ready:
-
-[source,shell script]
-----
- oc get KafkaConnector mysql-daytrader-connector -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'
-
-----
-
 == Deploy Application
 
 [source,shell script]
@@ -124,21 +70,55 @@ oc scale --replicas=1 deploy/sampledaytrader8
 curl -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDB"
 ----
 
-== Create Debezium Connectors
+
+== Deploy Kafka
 
 [source,shell script]
 ----
-oc apply -k k8s/debezium
+oc apply -k k8s/kafka/prod
+
 ----
 
-== List Kafka Topics
+=== Deploy Debezium KafkaConnect and MySQL KafkaConnector
 
 [source,shell script]
 ----
-./scripts/kafka-list-topics 
+oc apply -k k8s/debezium/prod
 ----
 
-Will list the following topics, you should see one topic per table of the DB with prefix `openshift.inventory.`.
+*NOTE*: This will take few mins for the Connector to be activated
+
+Wait for the KafkaConnect `daytrader-debezium-connect` pod to be running:
+
+[source,shell script]
+----
+watch oc get pods -n daytrader -l=strimzi.io/name=daytrader-debezium-connect
+----
+
+A successful KafkaConnect should show "Ready" to be "True":
+
+[source,shell script]
+----
+oc get KafkaConnect  -n daytrader daytrader-debezium -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'
+----
+
+*NOTE*: It will take few seconds for the KafkaConnector to be reconciled. Wait for few mins before you run the following commands to check the status.
+
+Check the status of the `mysql-daytrader-connector` to be ready:
+
+[source,shell script]
+----
+oc get KafkaConnector mysql-daytrader-connector -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'
+----
+
+=== List Kafka Topics
+
+[source,shell script]
+----
+./scripts/kafka-list-topics daytrader
+----
+
+Will list the following topics:
 
 [source,text]
 ----
@@ -152,15 +132,24 @@ openshift.traderdb.accountprofileejb
 openshift.traderdb.holdingejb
 openshift.traderdb.keygenejb
 openshift.traderdb.orderejb
+openshift.traderdb.outboxevent
 openshift.traderdb.quoteejb
 schema-changes.traderdb
+----
+
+NOTE: If you don't see all the topics as listed, try restarting the debezium connector pod
+
+[source,shell script]
+----
+oc scale --replicas=0 deploy/daytrader-debezium-connect
+oc scale --replicas=1 deploy/daytrader-debezium-connect
 ----
 
 == Access the Application
 
 [source,shell script]
 ----
-$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/
+open $DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/
 ----
 
 == Development
@@ -174,7 +163,7 @@ docker build --no-cache <container-registry>/debezium-connect
 docker push <container-registry>/debezium-connect
 ----
 
-*NOTE*: Be sure to update the k8s/debezium/debezium-connect.yaml with image image from the build
+*NOTE*: Be sure to update the k8s/debezium/debezium-connect.yaml with an image from the build
 
 === Image Streams
 

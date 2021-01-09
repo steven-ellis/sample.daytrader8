@@ -50,7 +50,7 @@
                 <TD><B><A href="app?action=account">Account</A></B></TD>
                 <TD><B><A href="app?action=mksummary">Market Summary</A></B></TD>
                 <TD><B><A href="app?action=portfolio">Portfolio</A></B></TD>
-                <TD><B><A href="app?action=quotes&amp;symbols=s:0,s:1,s:2,s:3,s:4">Quotes/Trade</A></B></TD>
+                <TD><B><A href="app?action=quotes&amp;symbols=AERO,MSK,ACME,EXAT,BACD">Quotes/Trade</A></B></TD>
                 <TD><B><A href="app?action=logout">Logoff</A></B></TD>
                 <TD></TD>
             </TR>
@@ -371,7 +371,7 @@
                                             name="action" value="quotes">
                                         <INPUT size="20" type="text"
                                             name="symbols"
-                                            value="s:0, s:1, s:2, s:3, s:4">
+                                            value="AERO, MSK, ACME, EXAT, BACD">
                                     </FORM>
                                 </TD>
                             </TR>
