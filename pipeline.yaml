@@ -1,0 +1,100 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: git-source-pvc2
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: image
+spec:
+  type: image
+  params:
+    - name: url
+      value: image-registry.openshift-image-registry:5000/daytrader/sampledaytrader8
+---
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: git
+spec:
+  type: git
+  params:
+    - name: url
+      value: https://github.com/kameshsampath/sample.daytrader8
+    - name: revision
+      value: sko-demo
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: daytrader-pipeline
+spec:
+  workspaces:
+  - name: shared-workspace
+  resources:
+  - name: build-image
+    type: image
+  - name: app-source
+    type: git
+  params:
+  - name: destination-image
+    default: "image-registry.openshift-image-registry.svc:5000/daytrader/sampledaytrader8"
+  - name: maven-mirror-url
+    default: "https://repo1.maven.org/maven2"
+  tasks:
+  - name: git-clone
+    taskRef:
+      name: git-clone
+      kind: ClusterTask
+    workspaces:
+    - name: output
+      workspace: shared-workspace
+    params:
+    - name: url
+      value: https://github.com/kameshsampath/sample.daytrader8
+    - name: revision
+      value: sko-demo
+    - name: subdirectory
+      value: ""
+    - name: deleteExisting
+      value: "true"
+  - name: build-app
+    taskRef:
+      name: buildah
+      kind: ClusterTask
+    runAfter:
+    - git-clone
+    workspaces:
+    - name: source
+      workspace: shared-workspace
+    params:
+    - name: IMAGE
+      value: "$(params.destination-image)"
+    - name: TLSVERIFY
+      value: "false"
+    - name: BUILD_EXTRA_ARGS
+      value: "--build-arg MAVEN_MIRROR_URL=$(params.maven-mirror-url)"
+  - name: deploy-app
+    taskRef:
+      name: openshift-client
+      kind: ClusterTask
+    params:
+      - name: ARGS
+        value:
+          - "apply"
+          - "-k"
+          - "/workspace/source/k8s/sampledaytrader8/prod/"
+    resources:
+      inputs:
+        - name: source
+          resource: app-source 
+    runAfter:
+    - build-app

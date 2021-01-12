@@ -8,7 +8,7 @@ metadata:
     strimzi.io/use-connector-resources: "true"
 spec:
   replicas: 1
-  version: 2.5.0
+  version: 2.6.0
   image: quay.io/kameshsampath/debezium-connect
   imagePullPolicy: Always 
   bootstrapServers: daytrader-kafka-bootstrap:9093

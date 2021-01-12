@@ -1,0 +1,24 @@
+---
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: daytrader-pipeline-run
+spec:
+  pipelineRef:
+    name: daytrader-pipeline
+  workspaces:
+  - name: shared-workspace
+    persistentvolumeclaim:
+      claimName: git-source-pvc2
+  params:
+  - name: destination-image
+    value: image-registry.openshift-image-registry.svc:5000/daytrader/sampledaytrader8
+  - name: maven-mirror-url
+    value: "http://nexus.infra:8081/nexus/content/groups/public"
+  resources:
+  - name: build-image
+    resourceRef:
+      name: image
+  - name: app-source
+    resourceRef:
+      name: git
