@@ -35,7 +35,7 @@ On clusters where heritage application `sampledaytrader` is deployed, deployed M
 
 [source,shell script]
 ----
-oc apply -k k8s/db/mysql
+oc apply -k k8s/db/prod
 
 ----
 
@@ -59,10 +59,12 @@ export DAYTRADER_ROUTE="https://$(oc get route -n daytrader sampledaytrader8 -o 
 curl -k -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDBTables"
 ----
 
-You should get a response similar to
+You should get a response starting with
 
 ----
-<BR>TradeBuildDB: **** Unable to check DB Product name, please check Database/AppServer configuration and retry ****</BR></BODY>
+<BR>TradeBuildDB: **** Database Product detected: MySQL ****</BR>
+<BR>TradeBuildDB: **** This Database is unsupported/untested use at your own risk ****</BR>
+
 ----
 
 [source,shell script]
