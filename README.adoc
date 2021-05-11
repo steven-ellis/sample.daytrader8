@@ -35,7 +35,7 @@ On clusters where heritage application `sampledaytrader` is deployed, deployed M
 
 [source,shell script]
 ----
-oc apply -k k8s/db/mysql/prod
+oc apply -k k8s/db/mysql
 
 ----
 
@@ -49,14 +49,20 @@ oc apply -k k8s/sampledaytrader8/prod
 
 [source,shell script]
 ----
-export DAYTRADER_ROUTE="https://$(oc get route daytrader -ojsonpath='{.spec.host}')"
+export DAYTRADER_ROUTE="https://$(oc get route -n daytrader sampledaytrader8 -o jsonpath='{.spec.host}')"
 ----
 
 == Create and Populate the DB tables
 
 [source,shell script]
 ----
-curl -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDBTables"
+curl -k -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDBTables"
+----
+
+You should get a response similar to
+
+----
+<BR>TradeBuildDB: **** Unable to check DB Product name, please check Database/AppServer configuration and retry ****</BR></BODY>
 ----
 
 [source,shell script]
@@ -65,9 +71,11 @@ oc scale --replicas=0 deploy/sampledaytrader8
 oc scale --replicas=1 deploy/sampledaytrader8
 ----
 
+Allow a couple of minutes for the service to scale back up
+
 [source,shell script]
 ----
-curl -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDB"
+curl -k -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDB"
 ----
 
 
