@@ -123,7 +123,7 @@ oc get KafkaConnector mysql-daytrader-connector -ojsonpath='{.status.conditions[
 
 [source,shell script]
 ----
-./scripts/kafka-list-topics daytrader
+./scripts/kafka-list-topics.sh daytrader
 ----
 
 Will list the following topics:
