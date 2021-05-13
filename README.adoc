@@ -47,6 +47,14 @@ oc apply -k k8s/sampledaytrader8/prod
 
 ----
 
+This may take a couple of minutes to deploy so monitor via
+
+[source,shell script]
+----
+watch oc get pods -n daytrader -l=app=sampledaytrader
+----
+
+
 [source,shell script]
 ----
 export DAYTRADER_ROUTE="https://$(oc get route -n daytrader sampledaytrader8 -o jsonpath='{.spec.host}')"
@@ -73,7 +81,7 @@ oc scale --replicas=0 deploy/sampledaytrader8
 oc scale --replicas=1 deploy/sampledaytrader8
 ----
 
-Allow a couple of minutes for the service to scale back up
+Allow a couple of minutes for the service to scale back up, use the "watch" command above to keep an eye on things. Then populate our data.
 
 [source,shell script]
 ----
