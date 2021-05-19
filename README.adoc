@@ -35,7 +35,7 @@ On clusters where heritage application `sampledaytrader` is deployed, deployed M
 
 [source,shell script]
 ----
-oc apply -k k8s/db/mysql/prod
+oc apply -k k8s/db/prod
 
 ----
 
@@ -44,7 +44,6 @@ oc apply -k k8s/db/mysql/prod
 [source,shell script]
 ----
 oc apply -k k8s/sampledaytrader8/prod
-
 ----
 
 [source,shell script]
