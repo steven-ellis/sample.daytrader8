@@ -5,15 +5,15 @@ The heritage Stock trading application based on J2EE.
 == Pre-requisites
 
 * https://try.openshift.com[OpenShift 4 Cluster]
-* https://strimzi.io[Strimzi Kafka]
+* https://www.redhat.com/en/resources/amq-streams-datasheet[Red Hat AMQ Streams]
 
 == Prepare Cluster
 
 Ensure the following operator is installed in cluster:
 
-- https://operatorhub.io/operator/strimzi-kafka-operator[Strimzi Kafka]
+-https://www.redhat.com/en/blog/getting-started-red-hat-amq-streams-operator[Red Hat AMQ Streams]
 
-[NOTE]: In OpenShift the operators can be installed via Operator Hub integration from Adminstrator console.
+[NOTE]: In OpenShift the operators can be installed via Operator Hub integration from Administrator console.
 
 == Clone the sources
 
@@ -53,6 +53,12 @@ export DAYTRADER_ROUTE="https://$(oc get route daytrader -ojsonpath='{.spec.host
 
 == Create and Populate the DB tables
 
+Create the application DB tables,
+
+image:docs/images/buildDBTables.png[Config buildTables]
+
+(OR)
+
 [source,shell script]
 ----
 curl -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDBTables"
@@ -64,18 +70,22 @@ oc scale --replicas=0 deploy/sampledaytrader8
 oc scale --replicas=1 deploy/sampledaytrader8
 ----
 
+Populate the tables with sample data,
+
+image:docs/images/populateDBTables.png[Config populate Tables]
+
+(OR)
+
 [source,shell script]
 ----
 curl -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDB"
 ----
-
 
 == Deploy Kafka
 
 [source,shell script]
 ----
 oc apply -k k8s/kafka/prod
-
 ----
 
 === Deploy Debezium KafkaConnect and MySQL KafkaConnector
