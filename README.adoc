@@ -50,7 +50,7 @@ This may take a couple of minutes to deploy so monitor via
 
 [source,shell script]
 ----
-watch oc get pods -n daytrader -l=app=sampledaytrader
+watch oc get pods -n daytrader -l=app=sampledaytrader8
 ----
 
 
@@ -87,6 +87,16 @@ Allow a couple of minutes for the service to scale back up, use the "watch" comm
 curl -k -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDB"
 ----
 
+If this works you should see a response similar to the following
+
+----
+<HEAD><BR><EM> TradeBuildDB: Building DayTrader Database...</EM><BR> This operation will take several minutes. Please wait...</HEAD>
+<BODY>
+<BR>TradeBuildDB: **** Creating 10000 Quotes ****</BR>
+.....AERO -<BR>
+----
+
+It is critical that the above step doesn't time out.
 
 == Deploy Kafka
 
