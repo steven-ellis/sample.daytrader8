@@ -44,7 +44,6 @@ oc apply -k k8s/db/prod
 [source,shell script]
 ----
 oc apply -k k8s/sampledaytrader8/prod
-
 ----
 
 This may take a couple of minutes to deploy so monitor via
