@@ -82,8 +82,8 @@ You should get a response starting with
 
 [source,shell script]
 ----
-oc scale --replicas=0 deploy/sampledaytrader8
-oc scale --replicas=1 deploy/sampledaytrader8
+oc scale -n daytrader --replicas=0 deploy/sampledaytrader8
+oc scale -n daytrader --replicas=1 deploy/sampledaytrader8
 ----
 
 Allow a couple of minutes for the service to scale back up, use the "watch" command above to keep an eye on things. Then populate the tables with sample data,
@@ -177,8 +177,8 @@ NOTE: If you don't see all the topics as listed, try restarting the debezium con
 
 [source,shell script]
 ----
-oc scale --replicas=0 deploy/daytrader-debezium-connect
-oc scale --replicas=1 deploy/daytrader-debezium-connect
+oc scale -n daytrader --replicas=0 deploy/daytrader-debezium-connect
+oc scale -n daytrader --replicas=1 deploy/daytrader-debezium-connect
 ----
 
 == Access the Application
