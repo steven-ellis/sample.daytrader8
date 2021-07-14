@@ -11,27 +11,35 @@ The heritage Stock trading application based on J2EE.
 
 Ensure the following operator is installed in cluster:
 
--https://www.redhat.com/en/blog/getting-started-red-hat-amq-streams-operator[Red Hat AMQ Streams]
+- https://www.redhat.com/en/blog/getting-started-red-hat-amq-streams-operator[Red Hat AMQ Streams]
 
-[NOTE]: In OpenShift the operators can be installed via Operator Hub integration from Administrator console.
+*NOTE*: In OpenShift the operators can be installed via Operator Hub integration from Administrator console.
 
-== Clone the sources
+*NOTE*: Operator needs to be installed in all namespaces.
 
-[source,bash]
-----
-git clone -b sko-demo https://github.com/kameshsampath/sample.daytrader8
-----
-
-We will refer to the cloned project sources folder as `$PROJECT_HOME`.
+== Clone these sources
 
 [source,bash]
 ----
-cd $PROJECT_HOME
+git clone -b sko-demo https://github.com/steven-ellis/sample.daytrader8
+cd sample.daytrader8
+----
+
+== Login to OpenShift
+
+Make sure you're **oc** client is logged into your target OpenShift cluter. A useful check is
+
+[source,shell script]
+----
+oc get clusterversion
+# or
+oc whoami 
+oc whoami --show-server
 ----
 
 == Deploy Databases
 
-On clusters where heritage application `sampledaytrader` is deployed, deployed MySQL:
+On clusters where heritage application `sampledaytrader` is deployed, deploy MySQL:
 
 [source,shell script]
 ----
@@ -61,11 +69,20 @@ export DAYTRADER_ROUTE="https://$(oc get route -n daytrader sampledaytrader8 -o 
 
 == Create and Populate the DB tables
 
-Create the application DB tables,
+Create the application DB tables, either via the web interface
+
+- browse to the following URL
+
+[source,shell script]
+----
+echo $DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/
+----
+
+- select the *_Configuration_* Tab and the *_(Re)-create_* Option
 
 image:docs/images/buildDBTables.png[Config buildTables]
 
-(OR)
+*OR* on the command line
 
 [source,shell script]
 ----
@@ -87,10 +104,13 @@ oc scale -n daytrader --replicas=1 deploy/sampledaytrader8
 ----
 
 Allow a couple of minutes for the service to scale back up, use the "watch" command above to keep an eye on things. Then populate the tables with sample data,
+either via the web interfatce
+
+- select the *_Configuration_* Tab and the *_(Re)-populate* Option
 
 image:docs/images/populateDBTables.png[Config populate Tables]
 
-(OR)
+*OR* on the command line
 
 [source,shell script]
 ----
@@ -106,7 +126,7 @@ If this works you should see a response similar to the following
 .....AERO -<BR>
 ----
 
-It is critical that the above step doesn't time out.
+It is critical that the above step doesn't time out. If it does time out attempt a second run.
 
 == Deploy Kafka
 
@@ -144,7 +164,7 @@ Check the status of the `mysql-daytrader-connector` to be ready:
 
 [source,shell script]
 ----
-oc get KafkaConnector mysql-daytrader-connector -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'
+oc get KafkaConnector -n daytrader mysql-daytrader-connector -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}'
 ----
 
 === List Kafka Topics
@@ -183,10 +203,34 @@ oc scale -n daytrader --replicas=1 deploy/daytrader-debezium-connect
 
 == Access the Application
 
+If you are running OS-X try
+
 [source,shell script]
 ----
 open $DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/
 ----
+
+Otherwise you can generate the URL to copy into your browser via
+
+[source,shell script]
+----
+echo $DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/
+----
+
+== Troubleshooting the Deployment
+
+Most common issue is that the database tables don't import correctly. You can access the console via the following URL
+and select the *_Configuration_* Tab and
+
+* *_(Re)-create_* the database and/or
+* *_(Re)-populate_* the database
+
+[source,shell script]
+----
+echo $DAYTRADER_ROUTE/io.openliberty.sample.daytrader8
+----
+
+
 
 == Development
 
