@@ -153,14 +153,65 @@ deploy_debezium ()
 
 }
 
-#check_oc_login
+check_status ()
+{
+    export DAYTRADER_ROUTE="https://$(oc get route -n daytrader sampledaytrader8 -o jsonpath='{.spec.host}')"
 
-#deploy_database
-#deploy_apps
+    echo "KafkaConnect should return Ready as True"
+    status=$(oc get KafkaConnect  -n daytrader daytrader-debezium -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}')
+ 
+    if [ "${status}" == "True" ] ; then
+       echo "KafkaConnect is Ready" 
+    else
+       echo "got status ${status} for KafkaConnect"
+       exit 1
+    fi
 
-#populate_db 
+    echo "Check the status of the mysql-daytrader-connector"
+    status=$(oc get KafkaConnector -n daytrader mysql-daytrader-connector -ojsonpath='{.status.conditions[?(@.type=="Ready")].status}')
 
-deploy_kafka
-deploy_debezium
+    if [ "${status}" == "True" ] ; then
+       echo "KafkaConnect mysql-daytrader-connector is Ready" 
+    else
+       echo "got status ${status} for KafkaConnect mysql-daytrader-connector"
+       exit 1
+    fi
 
+
+    echo ""
+    echo "List Kafka Topics"
+
+    ./scripts/kafka-list-topics.sh daytrader
+
+    echo ""
+    echo "You should now be able to access the application on"
+    echo $DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/
+}
+
+
+
+
+check_oc_login
+
+case "$1" in
+  deploy)
+        deploy_database
+        deploy_apps
+
+        populate_db 
+
+        deploy_kafka
+        deploy_debezium
+        ;;
+  status)
+        check_status
+        ;;
+  delete|cleanup|remove)
+        remove_apps
+        ;;
+  *)
+        echo "Usage: $N {setup|status|remove|cleanup}" >&2
+        exit 1
+        ;;
+esac
 
