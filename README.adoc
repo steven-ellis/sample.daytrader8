@@ -37,6 +37,31 @@ oc whoami
 oc whoami --show-server
 ----
 
+== Scripted Deployment
+
+We now have a scripted deployment approach. This normally takes two steps
+
+- deployment
+- status check
+
+There is still a risk that the database setup portion times out during the deployment script, in which case
+follow the _**Re-populate Database**_ steps below.
+
+
+[source,shell script]
+----
+# Make sure you're logged into the correct cluster
+./deploy.sh deploy
+
+# To confirm the environment is up correctly
+./deploy.sh status
+
+# If the status step fails, wait a couple of minutes for Kafka to complete and rerun
+./deploy.sh status
+----
+
+The _status_ step should return the URL required to access the application frontend.
+
 == Deploy Databases
 
 On clusters where heritage application `sampledaytrader` is deployed, deploy MySQL:
@@ -126,7 +151,8 @@ If this works you should see a response similar to the following
 .....AERO -<BR>
 ----
 
-It is critical that the above step doesn't time out. If it does time out attempt a second run.
+It is critical that the above step doesn't time out. If it does time out attempt a second run, or connect to the
+webapp and build the database from there to avoid timeout issues.
 
 == Deploy Kafka
 
