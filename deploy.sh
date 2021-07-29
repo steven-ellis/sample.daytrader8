@@ -122,6 +122,7 @@ populate_db ()
 
 
     confirm_app_running "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/"
+    sleep 20s
 
     curl -k -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDBTables" | 
 
@@ -133,6 +134,7 @@ populate_db ()
     oc_wait_for pod sampledaytrader8   app 
 
     confirm_app_running "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/"
+    sleep 20s
     
     echo "Now populate the Database"
     curl -k -X GET "$DAYTRADER_ROUTE/io.openliberty.sample.daytrader8/config?action=buildDB"
@@ -189,6 +191,13 @@ check_status ()
 }
 
 
+delete_database ()
+{
+    echo "======= delete_database ========"
+
+    oc delete -k k8s/db/prod
+
+}
 
 
 check_oc_login
@@ -207,7 +216,7 @@ case "$1" in
         check_status
         ;;
   delete|cleanup|remove)
-        remove_apps
+        delete_database
         ;;
   *)
         echo "Usage: $N {setup|status|remove|cleanup}" >&2
